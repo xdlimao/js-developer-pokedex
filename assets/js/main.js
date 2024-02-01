@@ -6,7 +6,10 @@ const maxRecords = 151
 const limit = 10
 let offset = 0;
 
+let pokemonsarray = []
+
 function convertPokemonToLi(pokemon) {
+    pokemonsarray.push(pokemon)
     return `
         <li class="pokemon ${pokemon.type}">
             <span class="number">#${pokemon.number}</span>
@@ -16,12 +19,38 @@ function convertPokemonToLi(pokemon) {
                 <ol class="types">
                     ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
                 </ol>
-                    <input type="button" value="Ver mais sobre" id="pkm${pokemon.type}">
+                    <input type="button" value="Ver maior" onclick="showDetailsBig(${pokemon.number})">
                 <img src="${pokemon.photo}"
                      alt="${pokemon.name}">
             </div>
         </li>
     `
+}
+
+function showDetailsBig(pokemonnumber){
+    pkm = pokemonsarray[pokemonnumber - 1]
+    card = `
+    <div class="bigcard ${pkm.type}">
+        <img src="${pkm.photo}"
+        alt="${pkm.name}">
+
+        <h1>${pkm.name}</h1>
+        <div style="filter: brightness(1.3);">
+            <ol class="types">
+                ${pkm.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
+            </ol>
+        </div>
+    </div>
+    `
+    const buttonback = document.getElementById("buttonloadback")
+    buttonback.innerHTML = `
+    <a href="/">
+    <button type="button">
+        Back
+    </button>
+    </a>
+    `
+    pokemonList.innerHTML = card
 }
 
 function loadPokemonItens(offset, limit) {
